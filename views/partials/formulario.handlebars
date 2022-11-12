@@ -1,0 +1,176 @@
+<br />
+<div class="container">
+  <form action="/formulario/save" method="post">
+    <div class="card">
+      <div class="card-header text-center">
+        <h2>Formulario de cadastro</h2>
+      </div>
+      <div class="alert alert-primary" role="alert" hidden>
+         Cliente cadastrado com sucesso!
+      </div>
+      <div class="card-body">
+        <label>Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Digite seu nome..."
+          name="nome"
+          required
+        />
+        <label>Email</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="exemplo@exemplo.com"
+          name="email"
+        />
+        <div class="row">
+          <div class="col-6">
+        <label>Telefone</label>
+        <input
+          type="tel"
+          class="form-control"
+          placeholder="Digite seu telefone..."
+          name="telefone"
+          required
+        />
+           </div>
+         <div class="col-6">
+        <label>Data Nascimento</label>
+        <input
+          type="date"
+          class="form-control"
+          placeholder="Digite seu tefefone..."
+          name="data"
+          required
+        />
+        </div>  
+        </div>
+
+        <div class="row">
+          <div class="col-2">
+            <label>CEP</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Digite seu CEP..."
+              name="cep"
+              id="cep"
+              onchange="getUser()"
+              required
+            />
+           
+          </div>
+          <div class="col-5">
+            <label>BAIRRO</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="exemplo Liro do Vale"
+              name="bairro"
+              id="bairro"
+              readonly
+            />
+          </div>
+          <div class="col-5">
+            <label>LOGRADOURO</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="exemplo Praça da Sé"
+              name="logradouro"
+              id="logradouro"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+            <label>COMPLEMENTO</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="informe..."
+              name="complemento"
+              id="complemento"
+              required
+            />
+          </div>
+          <div class="col-4">
+            <label>LOCALIDADE</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="exemplo Manaus"
+              name="localidade"
+              id="localidade"
+              readonly
+            />
+          </div>
+          <div class="col-2">
+            <label>UF</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="exemplo AM"
+              name="uf"
+              id="uf"
+              readonly
+            />
+          </div>
+        </div>
+        <br />
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success">SALVAR</button>
+        </div>
+
+      </div>
+    </div> 
+  </form>
+  <br>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+async function getUser() {
+
+  let cep = document.getElementById('cep').value
+
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    console.log(response.data);
+
+  document.getElementById('bairro').value = response.data.bairro
+  document.getElementById('logradouro').value = response.data.logradouro
+  document.getElementById('complemento').value = response.data.complemento
+  document.getElementById('localidade').value = response.data.localidade
+  document.getElementById('uf').value = response.data.uf
+
+   if(cep == ""){
+      
+    }
+
+  } catch (error) {
+    
+   document.getElementById('bairro').value = ""
+   document.getElementById('logradouro').value = ""
+   document.getElementById('complemento').value = ""
+   document.getElementById('localidade').value = ""
+   document.getElementById('uf').value = "" 
+   alert('cep invalido!! preencha os campos') 
+
+  document.getElementById('bairro').removeAttribute("readonly")
+  document.getElementById('logradouro').removeAttribute("readonly")
+  document.getElementById('complemento').removeAttribute("readonly")
+  document.getElementById('localidade').removeAttribute("readonly")
+  document.getElementById('uf').removeAttribute("readonly")
+
+
+
+    console.error(error);
+  }
+}
+
+</script>
+
